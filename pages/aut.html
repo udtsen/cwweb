@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Увійти - Сервіс доставки їжі</title>
+  <!-- Підключаємо Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Підключаємо власні стилі -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Навігаційне меню -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="../index.html">Сервіс доставки їжі</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a id="profileLink" class="nav-link" href="aut.html">Увійти</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="about.html">Про нас</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="contact.html">Контакти</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Зміст сторінки для входу -->
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h2>Увійти</h2>
+      <form onsubmit="return validateForm()">
+        <div class="form-group">
+          <label for="loginEmail">Електронна пошта</label>
+          <input type="email" class="form-control" id="loginEmail" placeholder="Введіть електронну пошту">
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Пароль</label>
+          <div class="input-group">
+            <input type="password" class="form-control" id="loginPassword" placeholder="Введіть пароль">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button" id="togglePassword">Показати</button>
+            </div>
+          </div>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Увійти</button>
+      </form>
+      <div class="mt-3 text-center">
+        <p>Ще не маєте облікового запису?</p>
+        <!-- Кнопка для відкриття модального вікна -->
+        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#registrationModal">Зареєструватись</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Модальне вікно для вибору типу реєстрації -->
+<div class="modal fade" id="registrationModal" tabindex="-1" role="dialog" aria-labelledby="registrationModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="registrationModalLabel">Виберіть тип реєстрації</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Як ви бажаєте зареєструватись?</p>
+        <a href="courier_register.html" class="btn btn-primary">Як кур'єр</a>
+        <a href="place_register.html" class="btn btn-success">Як заклад</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Футер -->
+<footer class="footer mt-5 py-3 bg-dark text-white">
+  <div class="container">
+    <span>Сервіс доставки їжі &copy; 2024</span>
+  </div>
+</footer>
+
+<!-- Підключаємо Bootstrap JS та jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+// Перевірка, чи користувач авторизований (зазвичай це буде на основі даних зі сесії або кукі)
+var isLoggedIn = false; // Приклад: зараз користувач не авторизований
+
+// Отримання посилання на елемент меню "Профіль"
+var profileLink = document.getElementById('profileLink');
+
+// Змінення тексту елемента меню в залежності від авторизації
+if (isLoggedIn) {
+  profileLink.textContent = 'Мій профіль';
+} else {
+  profileLink.textContent = 'Увійти';
+}
+
+function validateForm() {
+  var password = document.getElementById("loginPassword").value;
+  var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
+  if (!passwordRegex.test(password)) {
+    alert("Пароль повинен містити не менше 8 символів, латинські літери та цифри.");
+    return false;
+  }
+
+  return true;
+}
+
+// Обробка події відправки форми
+$('form').submit(function(event) {
+  // Зупиняємо стандартну обробку події
+  event.preventDefault();
+  
+  // Отримуємо дані з форми
+  var email = $('#loginEmail').val();
+  var password = $('#loginPassword').val();
+
+  // AJAX-запит для авторизації
+  $.ajax({
+    type: 'POST',
+    url: 'aut.php', // Шлях до вашого PHP-скрипта для авторизації
+    data: { email: email, password: password },
+    dataType: 'json',
+    success: function(response) {
+      if (response.success) {
+        // Якщо авторизація успішна, перенаправляємо користувача на відповідну сторінку
+        if (response.user_type === 'courier') {
+          window.location.href = 'courier_dashboard.html'; // Перенаправлення на сторінку кур'єра
+        } else if (response.user_type === 'place') {
+          window.location.href = 'place_dashboard.html'; // Перенаправлення на сторінку закладу
+        }
+      } else {
+        // Якщо авторизація не вдалася, виводимо повідомлення про помилку
+        alert(response.error);
+      }
+    },
+    error: function(xhr, status, error) {
+      // Виводимо повідомлення про помилку, якщо сталася помилка під час виконання AJAX-запиту
+      alert("Сталася помилка: " + xhr.responseText);
+    }
+  });
+});
+
+// Функціонал перемикання пароля
+document.getElementById("togglePassword").addEventListener("click", function() {
+  var passwordField = document.getElementById("loginPassword");
+  if (passwordField.type === "password") {
+    passwordField.type = "text";
+    this.textContent = "Сховати";
+  } else {
+    passwordField.type = "password";
+    this.textContent = "Показати";
+  }
+});
+
+// Функція валідації форми
+function validateForm() {
+  var password = document.getElementById("loginPassword").value;
+  var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
+  if (!passwordRegex.test(password)) {
+    alert("Пароль повинен містити не менше 8 символів, латинські літери та цифри.");
+    return false;
+  }
+
+  return true;
+}
+
+// Обробка відправки форми
+$('form').submit(function(event) {
+  // Зупиняємо стандартну відправку форми
+  event.preventDefault();
+
+  // Отримання даних форми
+  var email = $('#loginEmail').val();
+  var password = $('#loginPassword').val();
+
+  // AJAX-запит для автентифікації
+  $.ajax({
+    type: 'POST',
+    url: 'aut.php', // Шлях до вашого PHP-скрипта для автентифікації
+    data: { email: email, password: password },
+    dataType: 'json',
+    success: function(response) {
+      if (response.success) {
+        // Перенаправлення користувача на відповідну сторінку після успішної автентифікації
+        if (response.user_type === 'courier') {
+          window.location.href = 'courier_dashboard.html'; // Перенаправлення на сторінку кур'єра
+        } else if (response.user_type === 'place') {
+          window.location.href = 'place_dashboard.html'; // Перенаправлення на сторінку закладу
+        }
+      } else {
+        // Виведення повідомлення про помилку, якщо автентифікація не вдалася
+        alert(response.error);
+      }
+    },
+    error: function(xhr, status, error) {
+      // Виведення повідомлення про помилку, якщо сталася помилка під час виконання AJAX-запиту
+      alert("Сталася помилка: " + xhr.responseText);
+    }
+  });
+});
+
+// Відображення повідомлення про успішну реєстрацію, якщо перенаправлено з параметром 'registration=success'
+document.addEventListener("DOMContentLoaded", function() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const registration = urlParams.get('registration');
+
+  if (registration === "success") {
+    alert("Акаунт зареєстровано успішно!");
+  }
+});
+</script>
+
+</body>
+</html>
