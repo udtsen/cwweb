@@ -1,11 +1,6 @@
 <?php
-// Підключення до бази даних
-$servername = "localhost";
-$username = "root"; // Ваш логін до MySQL
-$password = ""; // Ваш пароль до MySQL
-$dbname = "delivery"; // Назва вашої бази даних
 
-$conn = mysqli_connect($servername, $username, $password, $dbname);
+$conn = include "../dbconnect.php";
 
 // Перевірка з'єднання
 if (!$conn) {
