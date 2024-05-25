@@ -1,6 +1,6 @@
 <?php
 
-$conn = include "../dbconnect.php";
+$conn = include "../core/dbconnect.php";
 
 // Перевірка з'єднання
 if (!$conn) {
@@ -12,36 +12,22 @@ $email = $_POST['email'];
 $password = $_POST['password'];
 
 // SQL-запит на перевірку авторизації
-$sql_courier = "SELECT * FROM couriers WHERE email = '$email'";
-$sql_institution = "SELECT * FROM places WHERE email = '$email'";
-
-$result_courier = mysqli_query($conn, $sql_courier);
-$result_institution = mysqli_query($conn, $sql_institution);
+$sql = "SELECT * FROM users WHERE email = '$email'";
+$result = mysqli_query($conn, $sql);
 
 $response = array();
 
 // Перевірка, чи знайдено користувача в таблиці кур'єрів
-if (mysqli_num_rows($result_courier) > 0) {
-    $row = mysqli_fetch_assoc($result_courier);
+if (mysqli_num_rows($result) > 0) {
+    $row = mysqli_fetch_assoc($result);
     if (password_verify($password, $row['password'])) {
         $response['success'] = true;
-        $response['user_type'] = 'courier'; // Вказуємо тип користувача
+        $response['user_type'] = $row['status']; // Вказуємо тип користувача
     } else {
         $response['success'] = false;
         $response['error'] = "Неправильний пароль.";
     }
-} 
-// Перевірка, чи знайдено користувача в таблиці закладів
-elseif (mysqli_num_rows($result_institution) > 0) {
-    $row = mysqli_fetch_assoc($result_institution);
-    if (password_verify($password, $row['password'])) {
-        $response['success'] = true;
-        $response['user_type'] = 'places'; // Вказуємо тип користувача
-    } else {
-        $response['success'] = false;
-        $response['error'] = "Неправильний пароль.";
-    }
-} 
+}
 else {
     $response['success'] = false;
     $response['error'] = "Користувача з таким email не знайдено.";

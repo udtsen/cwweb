@@ -1,11 +1,6 @@
 <?php
 // Підключення до бази даних
-$servername = "localhost";
-$username = "root"; // Ваш логін до MySQL
-$password = ""; // Ваш пароль до MySQL
-$dbname = "delivery"; // Назва вашої бази даних
-
-$conn = mysqli_connect($servername, $username, $password, $dbname);
+$conn = include "../core/dbconnect.php";
 
 // Перевірка з'єднання
 if (!$conn) {
@@ -20,7 +15,7 @@ $password = $_POST['loginPassword'];
 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
 // SQL-запит на вставку даних
-$sql = "INSERT INTO places (email, password) VALUES ('$email', '$hashed_password')";
+$sql = "INSERT INTO users (email, password, status) VALUES ('$email', '$hashed_password', 'place')";
 
 $response = array();
 
