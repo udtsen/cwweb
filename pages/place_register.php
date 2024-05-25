@@ -1,4 +1,7 @@
 <?php
+
+include "../helpers/generateRandomString.php";
+
 // Підключення до бази даних
 $conn = include "../core/dbconnect.php";
 
@@ -20,9 +23,17 @@ $sql = "INSERT INTO users (email, password, status) VALUES ('$email', '$hashed_p
 $response = array();
 
 if (mysqli_query($conn, $sql)) {
-    // Перенаправлення на іншу сторінку після успішного додавання користувача до бази даних
-    header("Location: aut.html?registration=success");
-    exit();
+    $id = mysqli_insert_id($conn);
+    $time = time() + (3600 * 24 * 365); // year
+    $token = generateRandomString(256);
+    
+    $sql = "INSERT INTO sessions (id_user, token) VALUES ('$id', '$token')";
+    if (mysqli_query($conn, $sql)){
+        setcookie('token', $token, $time, '/');
+        // Перенаправлення на іншу сторінку після успішного додавання користувача до бази даних
+        header("Location: aut.html?registration=success");
+        exit();
+    }
 } else {
     $response['success'] = false;
     $response['error'] = "Помилка: " . $sql . "<br>" . mysqli_error($conn);

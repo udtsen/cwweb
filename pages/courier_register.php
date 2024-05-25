@@ -1,4 +1,7 @@
 <?php
+
+include "../helpers/generateRandomString.php";
+
 // Підключення до бази даних
 $conn = include "../core/dbconnect.php";
 
@@ -28,7 +31,16 @@ VALUES ('$lastName', '$firstName', '$transportType', '$phone', '$email', '$passw
 $response = array();
 
 if (mysqli_query($conn, $sql)) {
-    $response['success'] = true;
+    $id = mysqli_insert_id($conn);
+    $time = time() + (3600 * 24 * 365); // year
+    $token = generateRandomString(256);
+    
+    $sql = "INSERT INTO sessions (id_user, token) VALUES ('$id', '$token')";
+    
+    if (mysqli_query($conn, $sql)){
+        setcookie('token', $token, $time, '/');
+        $response['success'] = true;
+    }
 } else {
     $response['success'] = false;
     $response['error'] = "Помилка: " . $sql . "<br>" . mysqli_error($conn);
