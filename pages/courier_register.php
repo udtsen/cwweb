@@ -1,6 +1,6 @@
 <?php
 // Підключення до бази даних
-$conn = include "../dbconnect.php";
+$conn = include "../core/dbconnect.php";
 
 // Перевірка з'єднання
 if (!$conn) {
@@ -22,8 +22,8 @@ $plainPassword = $_POST['confirmPassword']; // Змінна для зберіг�
 $password = password_hash($plainPassword, PASSWORD_DEFAULT);
 
 // SQL-запит на вставку даних
-$sql = "INSERT INTO couriers (lastName, firstName, transportType, phone, email, password)
-VALUES ('$lastName', '$firstName', '$transportType', '$phone', '$email', '$password')";
+$sql = "INSERT INTO users (last_name, first_name, transport_type, phone, email, password, status)
+VALUES ('$lastName', '$firstName', '$transportType', '$phone', '$email', '$password', 'courier')";
 
 $response = array();
 
