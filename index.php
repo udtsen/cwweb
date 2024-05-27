@@ -1,3 +1,9 @@
+<?php
+  $user = include "core/auth.php";
+  $isLoggedIn = $user != null;
+  $auth_text = $isLoggedIn ? 'Мій профіль' : 'Увійти';
+  $auth_link = $isLoggedIn ? 'profile.php' : 'aut.html';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +15,6 @@
   <!-- Підключаємо власні стилі -->
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
 </head>
 <body>
 
@@ -23,7 +28,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <a id="profileLink" class="nav-link" href="pages/aut.html">Увійти</a>
+          <a id="profileLink" class="nav-link" href="pages/<?= $auth_link ?>"><?= $auth_text ?></a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="pages/about.html">Про нас</a>
@@ -43,7 +48,7 @@
       <h1>Ласкаво просимо до сервісу доставки їжі!</h1>
       <p>Ми пропонуємо швидку та зручну доставку смачної їжі прямо до вашого дверей. Наші кур'єри працюють цілодобово, щоб задовольнити ваші потреби.</p>
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registrationModal">Спробувати зараз</button>
-      <a href="pages/aut.html" class="btn btn-success">Увійти</a>
+      <a href="pages/<?= $auth_link ?>" class="btn btn-success"><?= $auth_text ?></a>
     </div>
     <div class="col-md-6">
       <!-- Додайте зображення або інші елементи, якщо потрібно -->
@@ -89,21 +94,6 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-<script>
-  // Перевірка, чи користувач авторизований (зазвичай це буде на основі даних зі сесії або кукі)
-  var isLoggedIn = false; // Приклад: зараз користувач не авторизований
-
-  // Отримання посилання на елемент меню "Профіль"
-  var profileLink = document.getElementById('profileLink');
-
-  // Змінення тексту елемента меню в залежності від авторизації
-  if (isLoggedIn) {
-    profileLink.textContent = 'Мій профіль';
-  } else {
-    profileLink.textContent = 'Увійти';
-  }
-</script>
 
 </body>
 </html>
