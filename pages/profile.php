@@ -1,10 +1,8 @@
 <?php
 	include "../core/auth.php";
-	if ($user['status'] = 'courier') {
+	if ($user['status'] == 'courier') {
 		header("Location: profile/courier.php");
-	} elseif ($user['status'] = 'place') {
-		var_dump($user['status']);
-		die();
+	} elseif ($user['status'] == 'place') {
 		header("Location: profile/place.php");
 	} else {
 		die();
