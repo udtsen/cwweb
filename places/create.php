@@ -23,7 +23,6 @@ $user = include $_SERVER['DOCUMENT_ROOT'] . '/core/auth.php';
 <?php
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    var_dump($_POST);
     $conn = include "../core/dbconnect.php";
     
     $user_id = $user['id'];
