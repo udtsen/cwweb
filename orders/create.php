@@ -32,12 +32,35 @@ if ($place['user_id'] != $user['id']) {
         <input type="text" class="form-control" id="payment" name="payment" placeholder="Залиште пустим, якщо без оплати">
     </div>
     <div class="form-group">
+        <label for="price">Ціна доставки:</label>
+        <input type="text" class="form-control" id="price" name="price">
+    </div>
+    <div class="form-group">
         <textarea name="info" class="form-control" id="info" rows="3" placeholder="Додаткова інформація(необов'язково)"></textarea>
     </div>
-    <button class="btn btn-outline-info">Створити заклад</button>
+    <button class="btn btn-outline-info">Створити замовлення</button>
 </form>
 
 <?php 
 $content = ob_get_clean();
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $place_id = $_GET['id'];
+    $user_id = $user['id'];
+    $client_address = $_POST['client_address'];
+    $be_ready = $_POST['be_ready'];
+    $client_phone = $_POST['client_phone'];
+    $payment = $_POST['payment'];
+    $price = $_POST['price'];
+    $info = $_POST['info'];
+
+    $sql = "INSERT INTO orders (place_id, user_id, client_address, be_ready, client_phone, payment, price, info)
+    VALUES ('$place_id', '$user_id', '$client_address', '$be_ready', '$client_phone', '$payment','$price', '$info')";
+
+    if (mysqli_query($conn, $sql)) {
+        header("Location: /orders/active.php");
+    }
+
+}
 
 include $_SERVER['DOCUMENT_ROOT'] . '/views/templates/base.view.php';
