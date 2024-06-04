@@ -2,6 +2,14 @@
 ob_start();
 $user = include $_SERVER['DOCUMENT_ROOT'] . '/core/auth.php';
 $conn = include "../core/dbconnect.php";
+
+$id = $user['id'];
+$sql = "SELECT id, name FROM places WHERE user_id = '$id'";
+$res = mysqli_query($conn, $sql);
+while ($row = mysqli_fetch_assoc($res)) {
+    $places[$row['id']] = $row['name'];
+}
+
 $sql = "SELECT * FROM orders WHERE dt_delivered IS NULL";
 
 if ($user['status'] == 'place') {
@@ -12,6 +20,10 @@ if ($user['status'] == 'place') {
 $res = mysqli_query($conn, $sql);
 while ($row = mysqli_fetch_assoc($res)) {
     $orders[] = $row;
+}
+
+foreach ($orders as &$order) {
+    $order['place_name'] = $places[$order['place_id']];
 }
 ?>
 
@@ -28,7 +40,7 @@ while ($row = mysqli_fetch_assoc($res)) {
         <th>Кур'єр отримав о</th>
     </tr>
     <?php foreach($orders as $order): ?>
-        <td><?= $order['place_id'] ?> / </td>
+        <td><?= $order['place_name'] ?> </td>
         <td><?= $order['client_address'] ?></td>
         <td><?= $order['client_phone'] ?></td>
         <td><?= $order['be_ready'] ?></td>
