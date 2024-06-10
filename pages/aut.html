@@ -141,9 +141,9 @@ $('form').submit(function(event) {
       if (response.success) {
         // Якщо авторизація успішна, перенаправляємо користувача на відповідну сторінку
         if (response.user_type === 'courier') {
-          window.location.href = 'courier_dashboard.html'; // Перенаправлення на сторінку кур'єра
+          window.location.href = '/pages/profile/place.php'; // Перенаправлення на сторінку кур'єра
         } else if (response.user_type === 'place') {
-          window.location.href = 'place_dashboard.html'; // Перенаправлення на сторінку закладу
+          window.location.href = '/pages/profile/place.php'; // Перенаправлення на сторінку закладу
         }
       } else {
         // Якщо авторизація не вдалася, виводимо повідомлення про помилку
@@ -201,9 +201,9 @@ $('form').submit(function(event) {
       if (response.success) {
         // Перенаправлення користувача на відповідну сторінку після успішної автентифікації
         if (response.user_type === 'courier') {
-          window.location.href = 'courier_dashboard.html'; // Перенаправлення на сторінку кур'єра
+          window.location.href = '/pages/profile/place.php'; // Перенаправлення на сторінку кур'єра
         } else if (response.user_type === 'place') {
-          window.location.href = 'place_dashboard.html'; // Перенаправлення на сторінку закладу
+          window.location.href = '/pages/profile/place.php'; // Перенаправлення на сторінку закладу
         }
       } else {
         // Виведення повідомлення про помилку, якщо автентифікація не вдалася
