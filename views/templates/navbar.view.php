@@ -11,10 +11,10 @@
           <a id="profileLink" class="nav-link" href="<?= $auth_link ?>"><?= $auth_text ?></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/pages/about.html">Про нас</a>
+          <a class="nav-link" href="/pages/about.php">Про нас</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/pages/contact.html">Контакти</a>
+          <a class="nav-link" href="/pages/contact.php">Контакти</a>
         </li>
       </ul>
     </div>
