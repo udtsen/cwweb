@@ -6,6 +6,7 @@ $conn = include "../../core/dbconnect.php";
 $id = $user['id'];
 $sql = "SELECT * FROM places WHERE user_id = '$id'";
 $res = mysqli_query($conn, $sql);
+$places = [];
 while ($row = mysqli_fetch_assoc($res)) {
     $places[] = $row;
 }
