@@ -5,5 +5,5 @@
 	} elseif ($user['status'] == 'place') {
 		header("Location: profile/place.php");
 	} else {
-		die();
+		header("Location: aut.html");
 	}

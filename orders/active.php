@@ -42,7 +42,7 @@ foreach ($orders as &$order) {
         <th>Додаткова інформація</th>
         <th>Створено</th>
         <th>Кур'єр</th>
-        <th>Кур'єр отримав о</th>
+        <th <?php if($user['status'] == 'place'): ?> colspan='2' <?php endif; ?>>Кур'єр отримав о</th>
     </tr>
     <?php foreach($orders as $order): ?>
         <td><?= $order['place_name'] ?> </td>
@@ -56,11 +56,12 @@ foreach ($orders as &$order) {
         <td>
             <?= $order['courier_name'] ?>
             <?php if($order['courier_id'] == NULL && $user['status'] == 'courier') { ?>
-                <a href="/orders/get.php">Взяти</a>
+                <a href="/orders/get.php?order_id=<?=$order['id']?>">Взяти</a>
             <?php } ?>
 
         </td>
         <td><?= $order['dt_get'] ?></td>
+        <td><a href="/orders/cancel.php?order_id=<?=$order['id']?>" class="btn btn-outline-danger">Скасувати</a></td>
     <?php endforeach; ?>
 </table>
 
