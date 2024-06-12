@@ -2,6 +2,10 @@
 ob_start();
 $user = include $_SERVER['DOCUMENT_ROOT'] . '/core/auth.php';
 
+if ($user['status'] == 'courier') {
+	header("Location: /orders/active.php");
+}
+
 $conn = include "../../core/dbconnect.php";
 $id = $user['id'];
 $sql = "SELECT * FROM places WHERE user_id = '$id'";
