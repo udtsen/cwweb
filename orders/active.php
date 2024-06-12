@@ -17,7 +17,7 @@ if ($user['status'] == 'place') {
 }
 
 $res = mysqli_query($conn, $sql);
-
+$orders = [];
 while ($row = mysqli_fetch_assoc($res)) {
     $orders[] = $row;
 }
