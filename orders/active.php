@@ -23,7 +23,9 @@ while ($row = mysqli_fetch_assoc($res)) {
 }
 
 foreach ($orders as &$order) {
-    $order['place_name'] = $places[$order['place_id']];
+    if ($user['status'] == 'place' ) {
+        $order['place_name'] = $places[$order['place_id']];        
+    }
     $order['courier_name'] = "Шукаємо";
     if ($order['courier_id']) {
         $order['courier_name'] = $order['first_name'] . " " . $order['last_name'];
@@ -61,7 +63,7 @@ foreach ($orders as &$order) {
 
         </td>
         <td><?= $order['dt_get'] ?></td>
-        <td><a href="/orders/cancel.php?order_id=<?=$order['id']?>" class="btn btn-outline-danger">Скасувати</a></td>
+        <?php if ($user['status'] == 'place'): ?><td><a href="/orders/cancel.php?order_id=<?=$order['id']?>" class="btn btn-outline-danger">Скасувати</a></td><?php endif; ?>
     <?php endforeach; ?>
 </table>
 
