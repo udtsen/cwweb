@@ -9,11 +9,11 @@ $res = mysqli_query($conn, $sql);
 while ($row = mysqli_fetch_assoc($res)) {
     $places[$row['id']] = $row['name'];
 }
-$sql = "SELECT * FROM orders LEFT JOIN users ON orders.courier_id = users.id WHERE dt_delivered IS NULL";
+$sql = "SELECT  orders.id, orders.place_id, orders.user_id, orders.courier_id, orders.client_address, orders.be_ready, orders.client_phone, orders.payment, orders.price, orders.info, orders.dt_create, orders.dt_get, orders.dt_delivered, users.email, users.phone, users.first_name, users.last_name  FROM orders LEFT JOIN users ON orders.courier_id = users.id WHERE dt_delivered IS NULL";
 
 if ($user['status'] == 'place') {
     $id = $user['id'];
-    $sql = "SELECT * FROM orders LEFT JOIN users ON orders.courier_id = users.id WHERE user_id = '$id' AND dt_delivered IS NULL";
+    $sql = "SELECT orders.id, orders.place_id, orders.user_id, orders.courier_id, orders.client_address, orders.be_ready, orders.client_phone, orders.payment, orders.price, orders.info, orders.dt_create, orders.dt_get, orders.dt_delivered, users.email, users.phone, users.first_name, users.last_name FROM orders LEFT JOIN users ON orders.courier_id = users.id WHERE user_id = '$id' AND dt_delivered IS NULL";
 }
 
 $res = mysqli_query($conn, $sql);
@@ -31,6 +31,7 @@ foreach ($orders as &$order) {
         $order['courier_name'] = $order['first_name'] . " " . $order['last_name'];
     }
 }
+
 ?>
 
 <table class="table" width="100%">
@@ -59,8 +60,9 @@ foreach ($orders as &$order) {
             <?= $order['courier_name'] ?>
             <?php if($order['courier_id'] == NULL && $user['status'] == 'courier') { ?>
                 <a href="/orders/get.php?order_id=<?=$order['id']?>">Взяти</a>
+            <?php }elseif ($order['courier_id'] != NULL && $order['courier_id'] == $user['id']) { ?>
+                <a class="btn btn-outline-success" href="/orders/get.php?order_id=<?=$order['id']?>">Перепризначити</a>
             <?php } ?>
-
         </td>
         <td><?= $order['dt_get'] ?></td>
         <?php if ($user['status'] == 'place'): ?><td><a href="/orders/cancel.php?order_id=<?=$order['id']?>" class="btn btn-outline-danger">Скасувати</a></td><?php endif; ?>
