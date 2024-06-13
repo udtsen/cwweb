@@ -61,7 +61,7 @@ foreach ($orders as &$order) {
             <?php if($order['courier_id'] == NULL && $user['status'] == 'courier') { ?>
                 <a href="/orders/get.php?order_id=<?=$order['id']?>">Взяти</a>
             <?php }elseif ($order['courier_id'] != NULL && $order['courier_id'] == $user['id']) { ?>
-                <a class="btn btn-outline-success" href="/orders/get.php?order_id=<?=$order['id']?>">Перепризначити</a>
+                <a class="btn btn-outline-success" href="/orders/reasign.php?order_id=<?=$order['id']?>">Перепризначити</a>
             <?php } ?>
         </td>
         <td><?= $order['dt_get'] ?></td>
