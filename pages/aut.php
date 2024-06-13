@@ -31,7 +31,7 @@ if (mysqli_num_rows($result) > 0) {
             setcookie('token', $token, $time, '/');
         }
     } else {
-        $response['success'] = false;
+        $response['success'] = falsтранспортнимe;
         $response['error'] = "Неправильний пароль.";
     }
 }
