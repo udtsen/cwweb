@@ -9,9 +9,10 @@
   <!-- Підключаємо власні стилі -->
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="/assets/css/main.css" rel="stylesheet">
 </head>
 <body>
-
+<div class="wrapper">
 <?php include "navbar.view.php" ?>
 
 <!-- Основна частина з інформацією про сервіс -->
