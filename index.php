@@ -9,14 +9,11 @@
 <!-- Основна частина з інформацією про сервіс -->
 <div class="container mt-5">
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
       <h1>Ласкаво просимо до сервісу доставки їжі!</h1>
       <p>Ми пропонуємо швидку та зручну доставку смачної їжі прямо до вашого дверей. Наші кур'єри працюють цілодобово, щоб задовольнити ваші потреби.</p>
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registrationModal">Спробувати зараз</button>
       <a href="pages/<?= $auth_link ?>" class="btn btn-success"><?= $auth_text ?></a>
-    </div>
-    <div class="col-md-6">
-      <!-- Додайте зображення або інші елементи, якщо потрібно -->
     </div>
   </div>
 </div>

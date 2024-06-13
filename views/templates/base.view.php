@@ -7,15 +7,16 @@
 
     include $HOME . '/views/templates/header.view.php';
 ?>
+<main class="main">
 <div class="container mt-5">
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-12">
 
             <?=  $content ?>
     
         </div>
     </div>
 </div>
-
+</main>
 <?php
     include $HOME . '/views/templates/footer.view.php';
