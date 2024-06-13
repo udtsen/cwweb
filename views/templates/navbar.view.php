@@ -12,8 +12,11 @@
         </li>
         <?php if($user): ?>
           <li class="nav-item">
+          <a id="profileLink" class="nav-link" href="/orders/active.php">Активні замовлення</a>
+          </li>
+          <li class="nav-item">
           <a id="profileLink" class="nav-link" href="/profile/logout.php">Вийти</a>
-        </li>
+          </li>
         <?php endif; ?>
         <li class="nav-item">
           <a class="nav-link" href="/pages/about.php">Про нас</a>
